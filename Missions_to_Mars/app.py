@@ -9,7 +9,10 @@ mongo = PyMongo(app, uri="mongodb://localhost:27017/mars_database")
 # Route to render index.html template using data from Mongo
 @app.route("/")
 def home():
-
+    #Find 1 record of data for the mongo db
+    nasa_data = mongo.db.collection.find_one()
+    #Return template and data
+    return render_template("index.html", space=nasa_data)
 
  # Route that will trigger the scrape function
 @app.route("/scrape")
