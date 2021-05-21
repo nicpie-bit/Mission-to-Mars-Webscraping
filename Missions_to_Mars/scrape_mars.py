@@ -76,4 +76,22 @@ def scrape():
         hemisphere_image_urls.append(hemisphere_image_url)
         browser.back()
 
+    #Store data in dictionary
+    mars_data = {
+        "news_title": news_title,
+        "news_p": news_p,
+        "featured_img_url": featured_img_url,
+        "fact_html_table": fact_html_table,
+        "hemisphere_image_urls": hemisphere_image_urls
+    }
+    
+    #Close browser
+    browser.quit()
+
+    #Return results
+    return mars_data
+
+
+
+
 
