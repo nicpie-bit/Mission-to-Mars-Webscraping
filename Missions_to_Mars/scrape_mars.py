@@ -5,23 +5,29 @@ import pymongo
 from splinter import Browser
 import pandas as pd
 from flask import Flask
+import time
 
 def scrape():
-    #Set up Splinter
-    executable_path = {'executable_path': ChromeDriverManager().install()}
-    browser = Browser('chrome', **executable_path, headless=False)
+    try:
+        #Set up Splinter
+        executable_path = {'executable_path': ChromeDriverManager().install()}
+        browser = Browser('chrome', **executable_path, headless=False)
 
-    #Visit url 
-    url = "https://redplanetscience.com"
-    browser.visit(url)
+        #Visit url 
+        url = "https://redplanetscience.com"
+        browser.visit(url)
+        time.sleep(3)
 
-    #Scrape page into Soup
-    html = browser.html
-    soup = bs(html, "html.parser")
+        #Scrape page into Soup
+        html = browser.html
+        soup = bs(html, "html.parser")
 
-    #Get latest news article info
-    news_title = soup.find_all('div', class_='content_title')[0].text
-    news_p = soup.find_all('div', class_='article_teaser_body')[0].text 
+        #Get latest news article info
+        news_title = soup.find_all('div', class_='content_title')[0].text
+        news_p = soup.find_all('div', class_='article_teaser_body')[0].text 
+    except Exception as error:
+        browser.quit()
+        print(error)
 
     #Visit new url
     jpl_url = 'https://spaceimages-mars.com/'
@@ -57,11 +63,11 @@ def scrape():
         urls.append(general_url+url)
     
     titles=[]
-    img_url=[]
+    img_urls=[]
     hemisphere_image_urls=[]
     for url in urls:
         response = requests.get(url)
-        soup = BeautifulSoup(response.text, 'html.parser')
+        soup = bs(response.text, 'html.parser')
         item_url = soup.find('img', class_='wide-image').get('src')
         img_url = general_url+'/'+item_url
         img_urls.append(img_url)
