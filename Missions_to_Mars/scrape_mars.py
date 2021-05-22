@@ -50,6 +50,7 @@ def scrape():
         mars_facts_table = pd.read_html(facts_url)
         fact_df = mars_facts_table[0]
         fact_df.columns = ['Mars-Earth Comparison', 'Mars', 'Earth']
+        fact_df.set_index("Mars-Earth Comparison", inplace=True)
         html_table = fact_df.to_html()
         fact_html_table = html_table.replace('/n', '')
     except Exception as error:
