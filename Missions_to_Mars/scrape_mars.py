@@ -69,7 +69,7 @@ def scrape():
         response = requests.get(url)
         soup = bs(response.text, 'html.parser')
         item_url = soup.find('img', class_='wide-image').get('src')
-        img_url = general_url+'/'+item_url
+        img_url = general_url+item_url
         img_urls.append(img_url)
         title = soup.find('h2', class_='title').text
         titles.append(title)
